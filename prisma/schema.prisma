@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum IdentityProvider {
+  EMAIL   @map("email")
+  GOOGLE  @map("google")
+  KAKAO   @map("kakao")
+  APPLE   @map("apple")
+}
+
+enum UserPermissionRole {
+  PRIVATE_USER   @map("privateUser")
+  BUSINESS_USER  @map("businessUser")
+  MANAGER        @map("manager")
+  SUB_MANAGER    @map("subManager")
+  DALLEMER       @map("dallemer")
+  ADMIN          @map("admin")
+}
+
+enum UserGender {
+  MALE    @map("male")
+  FEMALE  @map("female")
+}
+
+model User {
+  id                  Int                @id @default(autoincrement())
+  username            String?            @unique
+  name                String
+  gender              UserGender
+  phone               String
+  email               String             @unique
+  emailVerified       DateTime?
+  password            String?
+  avatar              String?
+  weekStart           String             @default("Sunday")
+  createDate          DateTime           @default(now())
+  updateDate          DateTime?
+  completedOnboarding Boolean            @default(false)
+  identityProvider    IdentityProvider   @default(EMAIL)
+  identityProviderId  String?
+  role                UserPermissionRole @default(PRIVATE_USER)
+  accessCode          String?
+  allowMarketing      Boolean            @default(false)
+  ProgramEvents       ProgramEvent[]
+  Booking             Booking[]
+}
+
+model Compnay {
+  id            Int            @id @default(autoincrement())
+  name          String
+  logo          String?
+  accessCode    String         @unique
+  used          Boolean        @default(false)
+  createdDate   DateTime       @default(now())
+  ProgramEvents ProgramEvent[]
+  Bookings      Booking[]
+}
+
+model Program {
+  id            Int            @id @default(autoincrement())
+  title         String
+  description   String?
+  ProgramEvents ProgramEvent[]
+}
+
+enum PeriodType {
+  UNLIMITED  @map("unlimited")
+  RANGE      @map("range")
+}
+
+model ProgramEvent {
+  id                  Int                @id @default(autoincrement())
+  company             Compnay?           @relation(fields: [compnayId], references: [id])
+  compnayId           Int?
+  dallemer            User?              @relation(fields: [dallemerId], references: [id])
+  dallemerId          Int?
+  program             Program?           @relation(fields: [programId], references: [id])
+  programId           Int?
+  title               String?
+  description         String?
+  room                String?
+  periodType          PeriodType
+  periodTypeStartDate DateTime?
+  periodTypeEndDate   DateTime?
+  sun                 Boolean            @default(false)
+  mon                 Boolean            @default(false)
+  tue                 Boolean            @default(false)
+  wed                 Boolean            @default(false)
+  thu                 Boolean            @default(false)
+  fri                 Boolean            @default(false)
+  sat                 Boolean            @default(false)
+  // 서비스 예약 가능일을 N일전에 공지
+  noticeDays          Int                @default(0)
+  // 서비스 시작 N일전 예약 가능
+  bookingDays         Int                @default(7)
+  // 서비스 시작일을 N일전에 캘린더에 표시
+  previewDays         Int                @default(7)
+  // false면 유저에게 해당 서비스 예약이 보여지지 않음
+  used                Boolean            @default(false)
+  createdDate         DateTime           @default(now())
+  updatedDate         DateTime?
+  ProgramEventTime    ProgramEventTime[]
+  Bookings            Booking[]
+}
+
+// 이름 바뀔 수 있음
+enum ProgramTimeType {
+  CONTINUE  @map("continue")
+  BREAK     @map("break")
+}
+
+model ProgramEventTime {
+  id              Int             @id @default(autoincrement())
+  programEvent    ProgramEvent    @relation(fields: [programEventId], references: [id], onDelete: Cascade)
+  programEventId  Int
+  programTimeType ProgramTimeType @default(CONTINUE)
+  startTime       DateTime        @db.Time()
+  endTime         DateTime        @db.Time()
+  seats           Int             @default(0)
+}
+
+enum BookingStatus {
+  CANCELLED  @map("cancelled")
+  ACCEPTED   @map("accepted")
+  REJECTED   @map("rejected")
+  COMPLETED  @map("completed")
+  PENDING    @map("pending")
+}
+
+model Booking {
+  id                 Int           @id @default(autoincrement())
+  uid                String        @unique
+  user               User?         @relation(fields: [userId], references: [id])
+  userId             Int?
+  // 달래머 email, userId forign key로 중복 사용 못하는 듯
+  dallemerEmail      String
+  company            Compnay?      @relation(fields: [compnayId], references: [id])
+  compnayId          Int?
+  programEvent       ProgramEvent? @relation(fields: [programEventId], references: [id])
+  programEventId     Int?
+  title              String
+  description        String?
+  startTime          DateTime
+  endTime            DateTime
+  createdDate        DateTime      @default(now())
+  updatedDate        DateTime?
+  cancelledDate      DateTime?
+  cancellationReason String?
+  status             BookingStatus @default(PENDING)
+}
