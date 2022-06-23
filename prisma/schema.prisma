@@ -39,6 +39,7 @@ model User {
   identityProvider   IdentityProvider   @default(EMAIL)
   identityProviderId String?
   role               UserPermissionRole @default(USER)
+  posts              Post[]
 }
 
 model Post {
@@ -47,4 +48,6 @@ model Post {
   description String?
   createdDate DateTime  @default(now())
   updatedDate DateTime?
+  user        User?     @relation(fields: [userId], references: [id])
+  userId      Int?
 }

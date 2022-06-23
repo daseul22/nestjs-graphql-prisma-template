@@ -1,10 +1,6 @@
-import { Query, Resolver } from "@nestjs/graphql"
-import {
-  IdentityProvider,
-  User,
-  UserGender,
-  UserPermissionRole
-} from "./models/user.model"
+import { Args, Mutation, Query, Resolver } from "@nestjs/graphql"
+import { UserCreateInput } from "./input/user-create.input"
+import { User } from "./models/user.model"
 import { UserService } from "./user.service"
 
 @Resolver(() => User)
@@ -12,24 +8,38 @@ export class UserResolver {
   constructor(private userService: UserService) {}
 
   @Query(() => User)
-  async user() {
-    console.log(this.userService)
+  async getUser() {
+    return {}
+  }
 
+  @Query(() => [User])
+  async getUsers() {
+    return []
+  }
+
+  @Mutation(() => User)
+  async createUser(
+    @Args({ name: "userCreateInput" })
+    userCreateInput: UserCreateInput
+  ) {
+    console.log(userCreateInput)
+    const createdUser = await this.userService.createUser({
+      ...userCreateInput,
+      gender: "MALE",
+      role: "ADMIN"
+    })
     return {
-      id: 1,
-      username: "",
-      name: "",
-      gender: UserGender.MALE,
-      phone: "",
-      email: "",
-      emailVerified: "",
-      password: "",
-      avatar: "",
-      createdDate: new Date("2022-06-23"),
-      updatedDate: new Date(),
-      identityProvider: IdentityProvider.GOOGLE,
-      identityProviderId: "",
-      role: UserPermissionRole.ADMIN
+      ...createdUser
     }
+  }
+
+  @Mutation(() => User)
+  async updateUser() {
+    return {}
+  }
+
+  @Mutation(() => User)
+  async deleteUser() {
+    return {}
   }
 }

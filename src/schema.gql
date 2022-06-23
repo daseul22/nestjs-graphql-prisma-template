@@ -2,6 +2,20 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Post {
+  id: ID!
+  title: String!
+  description: String
+  createdDate: DateTime!
+  updatedDate: DateTime
+  user: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 """
 DateTime은 https://docs.nestjs.com/graphql/scalars#override-a-default-scalar 참고
 """
@@ -20,6 +34,7 @@ type User {
   createdDate: DateTime!
   updatedDate: DateTime
   identityProviderId: String
+  posts: [Post!]!
 }
 
 enum UserGender {
@@ -39,11 +54,30 @@ enum UserPermissionRole {
   ADMIN
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Query {
-  user: User!
+  getUser: User!
+  getUsers: [User!]!
+  getPost: Post!
+  getPosts: [Post!]!
+}
+
+type Mutation {
+  createUser(userCreateInput: UserCreateInput!): User!
+  updateUser: User!
+  deleteUser: User!
+  createPost: Post!
+  updatePost: Post!
+  deletePost: Post!
+}
+
+input UserCreateInput {
+  username: String
+  name: String!
+  gender: UserGender!
+  phone: String!
+  email: String!
+  emailVerified: String
+  password: String
+  avatar: String
+  role: UserPermissionRole!
 }

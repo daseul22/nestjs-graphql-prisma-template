@@ -1,4 +1,5 @@
 import { Field, ObjectType, registerEnumType, ID } from "@nestjs/graphql"
+import { Post } from "src/post/models/post.model"
 
 export enum IdentityProvider {
   EMAIL,
@@ -51,4 +52,5 @@ export class User {
   identityProviderId?: string
   @Field(() => UserPermissionRole)
   role: UserPermissionRole
+  posts: Post[]
 }
