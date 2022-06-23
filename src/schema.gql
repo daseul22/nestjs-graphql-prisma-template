@@ -2,7 +2,8 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-""" DateTime은 https://docs.nestjs.com/graphql/scalars#override-a-default-scalar 참고
+"""
+DateTime은 https://docs.nestjs.com/graphql/scalars#override-a-default-scalar 참고
 """
 type User {
   id: ID!
