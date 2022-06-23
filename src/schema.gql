@@ -1,0 +1,48 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+""" DateTime은 https://docs.nestjs.com/graphql/scalars#override-a-default-scalar 참고
+"""
+type User {
+  id: ID!
+  gender: UserGender!
+  identityProvider: IdentityProvider!
+  role: UserPermissionRole!
+  username: String
+  name: String!
+  phone: String!
+  email: String!
+  emailVerified: String
+  password: String
+  avatar: String
+  createdDate: DateTime!
+  updatedDate: DateTime
+  identityProviderId: String
+}
+
+enum UserGender {
+  MALE
+  FEMALE
+}
+
+enum IdentityProvider {
+  EMAIL
+  GOOGLE
+  KAKAO
+  APPLE
+}
+
+enum UserPermissionRole {
+  USER
+  ADMIN
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  user: User!
+}

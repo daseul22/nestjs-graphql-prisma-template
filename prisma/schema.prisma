@@ -34,8 +34,8 @@ model User {
   emailVerified      DateTime?
   password           String?
   avatar             String?
-  createDate         DateTime           @default(now())
-  updateDate         DateTime?
+  createdDate        DateTime           @default(now())
+  updatedDate        DateTime?
   identityProvider   IdentityProvider   @default(EMAIL)
   identityProviderId String?
   role               UserPermissionRole @default(USER)
