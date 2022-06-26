@@ -9,5 +9,4 @@ export class Post {
   description?: string
   createdDate: Date
   updatedDate?: Date
-  user: User
 }

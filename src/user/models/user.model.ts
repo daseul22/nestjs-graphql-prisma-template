@@ -2,18 +2,18 @@ import { Field, ObjectType, registerEnumType, ID } from "@nestjs/graphql"
 import { Post } from "src/post/models/post.model"
 
 export enum IdentityProvider {
-  EMAIL,
-  GOOGLE,
-  KAKAO,
-  APPLE
+  EMAIL = "EMAIL",
+  GOOGLE = "GOOGLE",
+  KAKAO = "KAKAO",
+  APPLE = "APPLE"
 }
 registerEnumType(IdentityProvider, {
   name: "IdentityProvider"
 })
 
 export enum UserGender {
-  MALE,
-  FEMALE
+  MALE = "MALE",
+  FEMALE = "FEMALE"
 }
 
 registerEnumType(UserGender, {
@@ -21,8 +21,8 @@ registerEnumType(UserGender, {
 })
 
 export enum UserPermissionRole {
-  USER,
-  ADMIN
+  USER = "USER",
+  ADMIN = "ADMIN"
 }
 
 registerEnumType(UserPermissionRole, {
@@ -52,5 +52,4 @@ export class User {
   identityProviderId?: string
   @Field(() => UserPermissionRole)
   role: UserPermissionRole
-  posts: Post[]
 }
