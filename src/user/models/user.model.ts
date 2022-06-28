@@ -52,4 +52,5 @@ export class User {
   identityProviderId?: string
   @Field(() => UserPermissionRole)
   role: UserPermissionRole
+  posts: Post[]
 }

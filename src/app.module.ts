@@ -16,9 +16,14 @@ import { AuthModule } from "./auth/auth.module"
       autoSchemaFile: join(process.cwd(), "src/schema.gql"),
       installSubscriptionHandlers: true, // webSocket allow
       context: ({ req, res, connection }) => {
+        // guard에서 getContext하면 이 context를 가져오는거임
         return { req, res, connection }
       },
-      buildSchemaOptions: {}
+      buildSchemaOptions: {},
+      cors: {
+        origin: true,
+        credentials: true
+      }
     }),
     UserModule,
     PrismaModule,
