@@ -3,6 +3,7 @@ import { JwtModule } from "@nestjs/jwt"
 import { AuthService } from "./auth.service"
 import { AuthResolver } from "./auth.resolver"
 import { env } from "process"
+import { AuthController } from "./auth.controller"
 
 const { JWT_SECRET } = env
 
@@ -15,6 +16,7 @@ const { JWT_SECRET } = env
       }
     })
   ],
-  providers: [AuthService, AuthResolver]
+  providers: [AuthService, AuthResolver],
+  controllers: [AuthController]
 })
 export class AuthModule {}

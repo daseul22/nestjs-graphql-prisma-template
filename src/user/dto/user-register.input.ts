@@ -1,8 +1,12 @@
 import { InputType } from "@nestjs/graphql"
-import { UserGender, UserPermissionRole } from "../models/user.model"
+import {
+  IdentityProvider,
+  UserGender,
+  UserPermissionRole
+} from "../models/user.model"
 
 @InputType()
-export class UserCreateInput {
+export class UserRegisterInput {
   username?: string
   name: string
   gender: UserGender
@@ -12,4 +16,5 @@ export class UserCreateInput {
   password?: string
   avatar?: string
   role: UserPermissionRole
+  identityProvider: IdentityProvider
 }

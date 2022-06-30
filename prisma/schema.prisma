@@ -8,7 +8,6 @@ datasource db {
 }
 
 enum IdentityProvider {
-  EMAIL   @map("email")
   GOOGLE  @map("google")
   KAKAO   @map("kakao")
   APPLE   @map("apple")
@@ -36,7 +35,7 @@ model User {
   avatar             String?
   createdDate        DateTime           @default(now())
   updatedDate        DateTime?
-  identityProvider   IdentityProvider   @default(EMAIL)
+  identityProvider   IdentityProvider
   identityProviderId String?
   role               UserPermissionRole @default(USER)
   posts              Post[]
