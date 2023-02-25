@@ -3,7 +3,9 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "plugins": ["@nestjs/graphql"],
+    "plugins": [
+      "@nestjs/graphql"
+    ],
     "webpack": true
   },
   "projects": {
