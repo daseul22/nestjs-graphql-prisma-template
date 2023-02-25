@@ -8,19 +8,19 @@ datasource db {
 }
 
 enum IdentityProvider {
-  GOOGLE  @map("google")
-  KAKAO   @map("kakao")
-  APPLE   @map("apple")
+  GOOGLE @map("google")
+  KAKAO  @map("kakao")
+  APPLE  @map("apple")
 }
 
 enum UserPermissionRole {
-  USER   @map("user")
-  ADMIN  @map("admin")
+  USER  @map("user")
+  ADMIN @map("admin")
 }
 
 enum UserGender {
-  MALE    @map("male")
-  FEMALE  @map("female")
+  MALE   @map("male")
+  FEMALE @map("female")
 }
 
 model User {

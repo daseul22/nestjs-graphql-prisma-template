@@ -1,9 +1,9 @@
-import { Module } from "@nestjs/common"
-import { JwtModule } from "@nestjs/jwt"
-import { AuthService } from "./auth.service"
-import { AuthResolver } from "./auth.resolver"
-import { env } from "process"
-import { AuthController } from "./auth.controller"
+import { Module } from '@nestjs/common'
+import { JwtModule } from '@nestjs/jwt'
+import { AuthService } from './auth.service'
+import { AuthResolver } from './auth.resolver'
+import { env } from 'process'
+import { AuthController } from './auth.controller'
 
 const { JWT_SECRET } = env
 
@@ -12,7 +12,7 @@ const { JWT_SECRET } = env
     JwtModule.register({
       secret: JWT_SECRET,
       signOptions: {
-        expiresIn: "1 day"
+        expiresIn: '1 day'
       }
     })
   ],

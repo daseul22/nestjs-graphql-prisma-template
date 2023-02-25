@@ -1,5 +1,5 @@
-import axios from "axios"
-import { Provider } from "../interfaces/provider.interface"
+import axios from 'axios'
+import { Provider } from '../interfaces/provider.interface'
 
 export class GoogleProvider implements Provider {
   private email: string
@@ -11,10 +11,10 @@ export class GoogleProvider implements Provider {
   async validateAccessToken(accessToken: string): Promise<boolean> {
     try {
       const { data } = await axios.get(
-        "https://www.googleapis.com/auth/userinfo.profile",
+        'https://www.googleapis.com/auth/userinfo.profile',
         {
           headers: {
-            Authorization: "Bearer " + accessToken
+            Authorization: 'Bearer ' + accessToken
           }
         }
       )

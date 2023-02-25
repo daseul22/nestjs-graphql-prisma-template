@@ -1,7 +1,7 @@
-import { JwtService } from "@nestjs/jwt"
-import axios from "axios"
-import { Provider } from "../interfaces/provider.interface"
-import NodeRSA from "node-rsa"
+import { JwtService } from '@nestjs/jwt'
+import axios from 'axios'
+import { Provider } from '../interfaces/provider.interface'
+import NodeRSA from 'node-rsa'
 
 interface AppleJwt {
   header: {
@@ -27,23 +27,23 @@ interface AppleJwt {
 
 export class AppleProvider implements Provider {
   private email: string
-  private readonly APPLE_IDENTITY_URL: string = "https://appleid.apple.com"
-  private readonly iosBundleId: string = "com.chesedridge.dallem.user"
+  private readonly APPLE_IDENTITY_URL: string = 'https://appleid.apple.com'
+  private readonly iosBundleId: string = 'com.chesedridge.dallem.user'
 
   constructor(private jwtService: JwtService) {}
 
   private async getAppleIdentityPublicKey(kid) {
-    const url = this.APPLE_IDENTITY_URL + "/auth/keys"
+    const url = this.APPLE_IDENTITY_URL + '/auth/keys'
     const req = await axios.get(url)
 
     const keys = req.data.keys
     const key = keys.find((k) => k.kid === kid)
     const pubKey = new NodeRSA()
     pubKey.importKey(
-      { n: Buffer.from(key.n, "base64"), e: Buffer.from(key.e, "base64") },
-      "components-public"
+      { n: Buffer.from(key.n, 'base64'), e: Buffer.from(key.e, 'base64') },
+      'components-public'
     )
-    return pubKey.exportKey("public")
+    return pubKey.exportKey('public')
   }
 
   getUserEmail(): string {
@@ -60,15 +60,15 @@ export class AppleProvider implements Provider {
       const applePublicKey = await this.getAppleIdentityPublicKey(header.kid)
       const jwtClaims = this.jwtService.verify(accessToken, {
         publicKey: applePublicKey,
-        algorithms: ["RS256"]
+        algorithms: ['RS256']
       })
 
       if (jwtClaims.iss !== this.APPLE_IDENTITY_URL)
-        throw new Error("Apple identity token wrong issuer: " + jwtClaims.iss)
+        throw new Error('Apple identity token wrong issuer: ' + jwtClaims.iss)
       if (jwtClaims.aud !== clientID)
-        throw new Error("Apple identity token wrong audience: " + jwtClaims.aud)
+        throw new Error('Apple identity token wrong audience: ' + jwtClaims.aud)
 
-      console.log("jwtClaim", jwtClaims)
+      console.log('jwtClaim', jwtClaims)
       this.email = jwtClaims.email
       return true
     } catch (err) {

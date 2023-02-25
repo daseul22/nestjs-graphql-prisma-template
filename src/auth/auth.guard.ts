@@ -1,12 +1,12 @@
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common"
-import { Reflector } from "@nestjs/core"
-import { GqlExecutionContext } from "@nestjs/graphql"
-import { JwtService } from "@nestjs/jwt"
-import { User } from "@prisma/client"
-import { Request, Response } from "express"
-import { env } from "process"
-import { Observable } from "rxjs"
-import { PrismaService } from "src/prisma/prisma.service"
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
+import { Reflector } from '@nestjs/core'
+import { GqlExecutionContext } from '@nestjs/graphql'
+import { JwtService } from '@nestjs/jwt'
+import { User } from '@prisma/client'
+import { Request, Response } from 'express'
+import { env } from 'process'
+import { Observable } from 'rxjs'
+import { PrismaService } from 'src/prisma/prisma.service'
 
 export interface userIds {
   id: number
@@ -33,9 +33,9 @@ export class GqlAuthGuard implements CanActivate {
       const gqlContext: GqlContext = ctx.getContext()
       const { req } = gqlContext
 
-      const role = this.reflector.get<string[]>("role", ctx.getHandler())
-      console.log("role : ", role)
-      console.log("cookies :", req.cookies)
+      const role = this.reflector.get<string[]>('role', ctx.getHandler())
+      console.log('role : ', role)
+      console.log('cookies :', req.cookies)
       if (!role) return true
 
       const { dallemJwt } = req.cookies
@@ -51,7 +51,7 @@ export class GqlAuthGuard implements CanActivate {
 
       return true
     } catch (err) {
-      console.log("Invalid dallemJwt")
+      console.log('Invalid dallemJwt')
       console.log(err)
       return false
     }

@@ -1,5 +1,5 @@
-import { Field, ObjectType } from "@nestjs/graphql"
-import { IdentityProvider } from "src/user/models/user.model"
+import { Field, ObjectType } from '@nestjs/graphql'
+import { IdentityProvider } from 'src/user/models/user.model'
 
 @ObjectType()
 export class OAuthLoginRes {

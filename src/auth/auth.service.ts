@@ -1,12 +1,12 @@
-import { Injectable, Logger } from "@nestjs/common"
-import { JwtService } from "@nestjs/jwt"
-import { ApolloError } from "apollo-server-express"
-import { PrismaService } from "src/prisma/prisma.service"
-import { AppleProvider } from "./classes/apple-provider"
-import { GoogleProvider } from "./classes/google-provider"
-import { KakaoProvider } from "./classes/kakao-provider"
-import { OAuthLoginArgs } from "./dto/oauth-login.args"
-import { Provider } from "./interfaces/provider.interface"
+import { Injectable, Logger } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+import { ApolloError } from 'apollo-server-express'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { AppleProvider } from './classes/apple-provider'
+import { GoogleProvider } from './classes/google-provider'
+import { KakaoProvider } from './classes/kakao-provider'
+import { OAuthLoginArgs } from './dto/oauth-login.args'
+import { Provider } from './interfaces/provider.interface'
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
   private logger: Logger
   private oauthProvider: Provider
   constructor(private prisma: PrismaService, private jwtService: JwtService) {
-    this.logger = new Logger("AuthService")
+    this.logger = new Logger('AuthService')
   }
 
   async oauthLogin({
@@ -23,13 +23,13 @@ export class AuthService {
     accessToken
   }: OAuthLoginArgs): Promise<void> {
     switch (identityProvider) {
-      case "GOOGLE":
+      case 'GOOGLE':
         this.oauthProvider = new GoogleProvider()
         break
-      case "KAKAO":
+      case 'KAKAO':
         this.oauthProvider = new KakaoProvider()
         break
-      case "APPLE":
+      case 'APPLE':
         this.oauthProvider = new AppleProvider(new JwtService())
         break
     }
@@ -37,7 +37,7 @@ export class AuthService {
     const isValidAccessToken = await this.oauthProvider.validateAccessToken(
       accessToken
     )
-    if (!isValidAccessToken) throw new ApolloError("Invalid AccessToken")
+    if (!isValidAccessToken) throw new ApolloError('Invalid AccessToken')
   }
 
   async includesEmailInDatabase(): Promise<boolean> {

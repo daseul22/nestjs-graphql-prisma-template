@@ -1,5 +1,5 @@
-import axios from "axios"
-import { Provider } from "../interfaces/provider.interface"
+import axios from 'axios'
+import { Provider } from '../interfaces/provider.interface'
 
 export class KakaoProvider implements Provider {
   private email: string
@@ -11,10 +11,10 @@ export class KakaoProvider implements Provider {
   async validateAccessToken(accessToken: string): Promise<boolean> {
     try {
       const { data } = await axios.get(
-        "https://kapi.kakao.com/v2/user/me?secure_resource=true",
+        'https://kapi.kakao.com/v2/user/me?secure_resource=true',
         {
           headers: {
-            Authorization: "Bearer " + accessToken
+            Authorization: 'Bearer ' + accessToken
           }
         }
       )

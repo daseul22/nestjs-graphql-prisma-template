@@ -1,10 +1,10 @@
-import { ValidationPipe } from "@nestjs/common"
-import { NestFactory, Reflector } from "@nestjs/core"
-import { JwtService } from "@nestjs/jwt"
-import * as cookieParser from "cookie-parser"
-import { AppModule } from "./app.module"
-import { GqlAuthGuard } from "./auth/auth.guard"
-import { PrismaService } from "./prisma/prisma.service"
+import { ValidationPipe } from '@nestjs/common'
+import { NestFactory, Reflector } from '@nestjs/core'
+import { JwtService } from '@nestjs/jwt'
+import * as cookieParser from 'cookie-parser'
+import { AppModule } from './app.module'
+import { GqlAuthGuard } from './auth/auth.guard'
+import { PrismaService } from './prisma/prisma.service'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
