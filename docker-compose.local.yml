@@ -6,6 +6,7 @@ services:
       context: ./
       dockerfile: ./Dockerfile.local
     platform: linux/amd64
+    image: nestjs-graphql-prisma-template-local
     restart: always
     ports:
       - 3000:3000
