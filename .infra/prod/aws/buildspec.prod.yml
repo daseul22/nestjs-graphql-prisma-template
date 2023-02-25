@@ -1,0 +1,52 @@
+version: 0.2
+
+env:
+  parameter-store:
+    # DeployShell Env
+    AWS_ECR_REPO: '/[REPO]/AwsEcrRepo'
+    AWS_ECR_REPO_TAG: '/[REPO]/AwsEcrRepoTag'
+    AWS_REGION: '/[REPO]/AwsRegion'
+    AWS_ACCOUNT_ID: '/[REPO]/AwsAccountId'
+    # General Env
+    DATABASE_URL: '/[REPO]/DatabaseURL'
+    JWT_SECRET: '/[REPO]/JwtSecret'
+    # Sentry Env
+    SENTRY_DSN: '/[REPO]/SentryDsn'
+
+phases:
+  install:
+    runtime-version:
+      nodejs: 16
+  pre_build:
+    commands:
+      - printenv > .env
+      - ECR_HOST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - ECR_URL=$ECR_HOST/$AWS_ECR_REPO
+      - IMAGE_TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - echo AWS ECR login...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ECR_HOST$
+
+  build:
+    commands:
+      -
+      - docker build -f Dockerfile.prod -t $ECR_URL .
+      - docker tag $ECR_URL $ECR_URL:$AWS_ECR_REPO_TAG
+      - docker tag $ECR_URL $ECR_URL:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Builded image pushing...
+      - docker push $ECR_URL:$AWS_ECR_REPO_TAG
+      - docker push $ECR_URL:$IMAGE_TAG
+      - echo Make env-load.sh for deploy.sh...
+      - echo "#!/bin/bash" > .scripts/env-load.sh
+      - echo "export AWS_ECR_REPO=\"$AWS_ECR_REPO\"" >> .scripts/env-load.sh
+      - echo "export AWS_ECR_REPO_TAG=\"$AWS_ECR_REPO_TAG\"" >> .scripts/env-load.sh
+      - echo "export AWS_REGION=\"$AWS_REGION\"" >> .scripts/env-load.sh
+      - echo "export AWS_ACCOUNT_ID=\"$AWS_ACCOUNT_ID\"" >> .scripts/env-load.sh
+      - echo "export ECR_HOST=\"$ECR_HOST\"" >> .scripts/env-load.sh
+artifacts:
+  files:
+    - .infra/prod/aws/appspec.yml
+    - .infra/prod/docker/docker-compose.prod.yml
+    - .scripts/*
+  discard-paths: yes

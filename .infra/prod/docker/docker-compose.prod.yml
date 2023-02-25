@@ -1,0 +1,17 @@
+version: '3'
+services:
+  nestjs-template-prod:
+    container_name: nestjs-graphql-prisma-template-prod
+    platform: linux/amd64
+    image: ${AWS_ECR_REPO}:${AWS_ECR_REPO_TAG}
+    restart: always
+    ports:
+      - 3000:3000
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    environment:
+      TZ: Asia/Seoul
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    command: yarn start:prod
