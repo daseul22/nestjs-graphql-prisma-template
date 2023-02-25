@@ -1,12 +1,11 @@
-version: "3"
+version: '3'
 services:
-  kakao-noti-server:
-    container_name: nestjs-example
+  nestjs-template-local:
+    container_name: nestjs-graphql-prisma-template-local
     build:
       context: ./
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.local
     platform: linux/amd64
-    image: nestjs-example
     restart: always
     ports:
       - 3000:3000
