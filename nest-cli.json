@@ -3,20 +3,22 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
+    "webpack": true,
     "plugins": [
-      "@nestjs/graphql"
-    ],
-    "webpack": true
-  },
-  "projects": {
-    "utils": {
-      "type": "library",
-      "root": "libs/utils",
-      "entryFile": "index",
-      "sourceRoot": "libs/utils/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/utils/tsconfig.lib.json"
+      {
+        "name": "@nestjs/graphql",
+        "options": {
+          "typeFileNameSuffix": [
+            ".input.ts",
+            ".args.ts",
+            ".entity.ts",
+            ".model.ts",
+            ".payload.ts"
+          ],
+          "introspectComments": true
+        }
       }
-    }
-  }
+    ]
+  },
+  "projects": {}
 }

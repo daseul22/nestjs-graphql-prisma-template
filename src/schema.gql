@@ -2,43 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""
-DateTime은 https://docs.nestjs.com/graphql/scalars#override-a-default-scalar 참고
-"""
 type User {
-  id: ID!
-  gender: UserGender!
-  identityProvider: IdentityProvider!
-  role: UserPermissionRole!
+  id: Int!
   username: String
   name: String!
+  gender: UserGender!
   phone: String!
   email: String!
-  emailVerified: DateTime
-  password: String
   avatar: String
   createdDate: DateTime!
-  updatedDate: DateTime
-  identityProviderId: String
+  updatedDate: DateTime!
 }
 
-"""Enum은 문자열이 아니라 '' 로 감싸면 안됩니다."""
 enum UserGender {
   MALE
   FEMALE
-}
-
-"""Enum은 문자열이 아니라 '' 로 감싸면 안됩니다."""
-enum IdentityProvider {
-  GOOGLE
-  KAKAO
-  APPLE
-}
-
-"""Enum은 문자열이 아니라 '' 로 감싸면 안됩니다."""
-enum UserPermissionRole {
-  USER
-  ADMIN
 }
 
 """
@@ -46,42 +24,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type OAuthLoginRes {
-  registerStatus: Boolean!
-}
-
-type Post {
-  id: ID!
-  title: String!
-  description: String
-  createdDate: DateTime!
-  updatedDate: DateTime
-}
-
 type Query {
-  getUser: User!
-  getUsers: [User!]!
-  getPost: Post!
-  getPosts: [Post!]!
-}
-
-type Mutation {
-  registerUser(userRegisterInput: UserRegisterInput!): User!
-  createPost: Post!
-  updatePost: Post!
-  deletePost: Post!
-  login(identityProvider: IdentityProvider!, accessToken: String!): OAuthLoginRes!
-}
-
-input UserRegisterInput {
-  username: String
-  name: String!
-  gender: UserGender!
-  phone: String!
-  email: String!
-  emailVerified: String
-  password: String
-  avatar: String
-  role: UserPermissionRole!
-  identityProvider: IdentityProvider!
+  """Get a user by id"""
+  me: User!
 }

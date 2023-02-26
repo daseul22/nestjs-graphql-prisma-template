@@ -1,27 +1,24 @@
 import { ValidationPipe } from '@nestjs/common'
-import { NestFactory, Reflector } from '@nestjs/core'
-import { JwtService } from '@nestjs/jwt'
-import * as cookieParser from 'cookie-parser'
+import { NestFactory } from '@nestjs/core'
+import { SentryService } from '@ntegral/nestjs-sentry'
+import cookieParser from 'cookie-parser'
 import { AppModule } from './app.module'
-import { GqlAuthGuard } from './auth/auth.guard'
 import { PrismaService } from './prisma/prisma.service'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule, {
+    logger: false
+  })
 
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     whitelist: true,
-  //     forbidNonWhitelisted: true,
-  //     transform: true
-  //   })
-  // )
-  app.use(cookieParser())
+  app.useLogger(SentryService.SentryServiceInstance())
 
-  // 여기서 새로 new로 PrismaService 생성하면 싱글톤이 아니게 되는거 아닌가?
-  app.useGlobalGuards(
-    new GqlAuthGuard(new Reflector(), new JwtService(), new PrismaService())
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true
+    })
   )
+
+  app.use(cookieParser())
   const prismaService = app.get(PrismaService)
   await prismaService.enableShutdownHooks(app)
   await app.listen(3000)
