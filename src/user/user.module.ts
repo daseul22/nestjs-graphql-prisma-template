@@ -1,14 +1,9 @@
-import { Module } from "@nestjs/common"
-import { JwtModule, JwtService } from "@nestjs/jwt"
-import { env } from "process"
-
-import { UserResolver } from "./user.resolver"
-import { UserService } from "./user.service"
-
-const { JWT_SECRET } = env
+import { Module } from '@nestjs/common'
+import { UserService } from './user.service'
+import { UserResolver } from './user.resolver'
 
 @Module({
-  imports: [],
-  providers: [UserResolver, UserService, JwtService]
+  providers: [UserService, UserResolver],
+  exports: [UserService]
 })
 export class UserModule {}
