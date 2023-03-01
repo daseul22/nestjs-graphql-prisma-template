@@ -5,7 +5,9 @@ import {
   ObjectType,
   registerEnumType
 } from '@nestjs/graphql'
+import { Post } from 'src/post/models/post.model'
 
+//  =================== ENUM TYPE ===================
 export enum UserGender {
   MALE = 'MALE',
   FEMALE = 'FEMALE'
@@ -14,9 +16,10 @@ registerEnumType(UserGender, {
   name: 'UserGender'
 })
 
+// ==================== OBJECT TYPE ====================
 @ObjectType()
 export class UserResolveFields {
-  //   posts?: Post[]
+  posts?: Post[]
 }
 
 @ObjectType()
