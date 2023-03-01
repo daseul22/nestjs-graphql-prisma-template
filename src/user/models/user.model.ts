@@ -43,5 +43,5 @@ export class User extends UserResolveFields {
   @Field()
   createdDate: Date
   @Field()
-  updatedDate: Date
+  updatedDate?: Date
 }

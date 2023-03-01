@@ -14,9 +14,9 @@ export class Post extends PostResolveFields {
   @Field()
   title: string
   @Field()
-  description: string
+  description?: string
   @Field()
   createdDate: Date
   @Field()
-  updatedDate: Date
+  updatedDate?: Date
 }
